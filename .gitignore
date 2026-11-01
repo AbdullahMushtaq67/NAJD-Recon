@@ -1,0 +1,33 @@
+# Secrets: never commit real keys. .env.example (no values) is the template.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Local data
+*.db
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+backend/data/
+
+# Node
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

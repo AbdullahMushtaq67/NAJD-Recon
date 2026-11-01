@@ -1,0 +1,65 @@
+name: dir
+
+services:
+  backend:
+    build: ./backend
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # The frontend's nginx is the only client, so X-Forwarded-For can be trusted.
+      TRUST_PROXY_HEADERS: "true"
+      DEMO_MODE: ${DEMO_MODE:-false}
+    volumes:
+      - dir-data:/app/data
+    networks:
+      - app
+      - lab
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - app
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------------
+  # Practice lab: deliberately outdated services on an isolated network.
+  # They have NO published ports, so they're reachable only from the backend container,
+  # not from your LAN or the internet. Don't expose them.
+  # ---------------------------------------------------------------------------------
+  lab-apache:
+    image: httpd:2.4.49 # CVE-2021-41773 / CVE-2021-42013 (both in CISA KEV)
+    networks:
+      lab:
+        ipv4_address: 172.28.0.10
+    restart: unless-stopped
+
+  lab-nginx:
+    image: nginx:1.16.1 # CVE-2019-20372, CVE-2021-23017, ...
+    networks:
+      lab:
+        ipv4_address: 172.28.0.11
+    restart: unless-stopped
+
+  lab-redis:
+    image: redis:5.0.7 # outdated, and no password: a classic misconfiguration
+    networks:
+      lab:
+        ipv4_address: 172.28.0.12
+    restart: unless-stopped
+
+networks:
+  app: {}
+  lab:
+    internal: true # no route to the internet from the lab
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+
+volumes:
+  dir-data: {}
