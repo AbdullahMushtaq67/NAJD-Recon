@@ -300,5 +300,4 @@ trademark of Nmap Software LLC; this project is not affiliated with it.
 Open this folder in your code editor. In backend, create a virtual environment and install requirements-dev.txt, then run `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`. On Windows, the backend detects Nmap on PATH or in its standard Program Files install locations. Set `DEMO_MODE=true` to replay the included fixture without sending packets. In frontend run `npm ci` then `npm run dev -- --host 127.0.0.1`. Open http://localhost:5173. Live scanning needs Nmap; Gemini explanations need your own API key.
 
 Frontend validation: `npm test` and `npm run build`. The MIT notice is preserved in LICENSE.
-#   N A J D - R e c o n  
- 
+#
