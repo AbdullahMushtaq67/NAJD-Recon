@@ -2,7 +2,7 @@
 
 # NAJD Recon
 
-Developed by **Abdullah Bin Mohammad Mushtaq**.
+Developed by **Abdullah Mohammad Mushtaq**.
 
 **Authorized network reconnaissance, vulnerability intelligence, and clear remediation guidance.**
 
@@ -229,6 +229,7 @@ najd-recon/
 │   │   │   ├── database.py     #   SQLite: history + caches
 │   │   │   └── ratelimit.py
 │   │   ├── api/routes.py       # REST + SSE endpoints
+│   │   ├── reports/pdf.py      # branded PDF assessment reports
 │   │   ├── demo/               # recorded lab scan for DEMO_MODE and tests
 │   │   ├── config.py
 │   │   └── main.py
@@ -236,14 +237,15 @@ najd-recon/
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
-│   │   ├── components/         # ScanForm, CommandPreview, ScanProgress, ScanResults, CveRow…
-│   │   ├── hooks/useScanEvents.ts
-│   │   ├── api/client.ts
+│   │   ├── components/         # scan UI, assets, findings, reports, and workspace pages
+│   │   ├── hooks/              # scan events and local state
+│   │   ├── api/                # API client and report/export helpers
 │   │   └── types.ts
 │   ├── nginx.conf
 │   └── Dockerfile
 ├── docs/scan-techniques.md     # the Nmap concepts behind each option
 ├── docker-compose.yml          # app + isolated practice lab
+├── Makefile                    # setup, development, test, and lint commands
 ├── .github/workflows/ci.yml
 ├── .env.example
 ├── SECURITY.md
@@ -273,10 +275,12 @@ make lint     # ruff + bandit + TypeScript typecheck
 
 - [x] JSON / CSV exports and browser print-to-PDF
 - [x] Compare open ports and CVEs between completed scans of the same target
+- [x] Asset inventory with tags, ownership, and criticality
+- [x] Finding review workflow, saved views, assignees, due dates, and notes
+- [x] Workspace report branding and configurable in-app notifications
 - [ ] Scheduled recurring scans
-- [ ] User accounts with per-user allowlists
-- [ ] Asset inventory, labels and ownership
-- [ ] Risk trends, remediation tracking and notification integrations
+- [ ] User accounts with per-user access controls and allowlists
+- [ ] Email/webhook notification integrations and richer risk-trend reporting
 
 ## Brand assets
 
@@ -293,11 +297,10 @@ trademark of Nmap Software LLC; this project is not affiliated with it.
 
 ## License
 
-[MIT](LICENSE) © 2026 Abdullah Bin Mohammad Mushtaq
+[MIT](LICENSE) © 2026 Abdullah Mohammad Mushtaq
 
 ## Local Windows development
 
 Open this folder in your code editor. In backend, create a virtual environment and install requirements-dev.txt, then run `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`. On Windows, the backend detects Nmap on PATH or in its standard Program Files install locations. Set `DEMO_MODE=true` to replay the included fixture without sending packets. In frontend run `npm ci` then `npm run dev -- --host 127.0.0.1`. Open http://localhost:5173. Live scanning needs Nmap; Gemini explanations need your own API key.
 
 Frontend validation: `npm test` and `npm run build`. The MIT notice is preserved in LICENSE.
-#
